@@ -13,7 +13,9 @@ steps:
     - pacman --noconfirm -Syyu
     - pacman-key --init
     - pacman-key --populate archlinux
-    - pacman-key --recv-keys 7F9B8FC29F78B339
+    - curl -O http://dl.t2linux.org/archlinux/key.asc
+    - pacman-key --add key.asc
+    - pacman-key --finger 7F9B8FC29F78B339
     - pacman-key --lsign-key 7F9B8FC29F78B339
     - pacman --noconfirm --needed -S base-devel sudo linux-mbp linux-mbp-headers
     - useradd builduser -m
