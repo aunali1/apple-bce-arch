@@ -25,8 +25,8 @@ steps:
     - printf 'builduser ALL=(ALL) ALL\n' | tee -a /etc/sudoers # passwordless sudo
     - chown -R builduser:builduser ./
     - sudo -u builduser bash -c 'makepkg -s --noconfirm'
-    - ls -lah *.pkg.tar.xz
-    - mv *.pkg.tar.xz /tmp/products
+    - ls -lah *.pkg.tar.zst
+    - mv *.pkg.tar.zst /tmp/products
   when:
     event: tag
 
