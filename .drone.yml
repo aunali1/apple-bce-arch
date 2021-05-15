@@ -6,9 +6,17 @@ steps:
   image: archlinux/base
   pull: always
   volumes:
+    - name: arch-bootstrap
+      path: /tmp/bootstrap
     - name: build-products
       path: /tmp/products
   commands:
+    - curl --output /tmp/bootstrap/pacman-static https://pkgbuild.com/~eschwartz/repo/x86_64-extracted/pacman-static # Workaround https://bugs.archlinux.org/task/69563
+    - chmod +x /tmp/bootstrap/pacman-static
+    - /tmp/bootstrap/pacman-static --noconfirm -Syy
+    - curl --output /tmp/bootstrap/glibc-linux4-2.33-5-x86_64.pkg.tar.zst https://dl.t2linux.org/ci/glibc-linux4-2.33-5-x86_64.pkg.tar.zst
+    - curl --output /tmp/bootstrap/lib32-glibc-linux4-2.33-5-x86_64.pkg.tar.zst https://dl.t2linux.org/ci/lib32-glibc-linux4-2.33-5-x86_64.pkg.tar.zst
+    - printf 'y\ny\n' | /tmp/bootstrap/pacman-static -U /tmp/bootstrap/glibc-linux4-2.33-5-x86_64.pkg.tar.zst /tmp/bootstrap/lib32-glibc-linux4-2.33-5-x86_64.pkg.tar.zst
     - echo -e "[mbp]\nServer = http://dl.t2linux.org/archlinux/\$repo/\$arch" >> /etc/pacman.conf
     - pacman --noconfirm -Syyu
     - pacman-key --init
@@ -64,6 +72,8 @@ steps:
   image: archlinux
   pull: always
   volumes:
+    - name: arch-bootstrap
+      path: /tmp/bootstrap
     - name: build-products
       path: /tmp/products
     - name: temp-repo
@@ -82,6 +92,8 @@ steps:
     S3_BUCKET:
       from_secret: s3_bucket
   commands:
+    - /tmp/bootstrap/pacman-static --noconfirm -Syy
+    - printf 'y\ny\n' | /tmp/bootstrap/pacman-static -U /tmp/bootstrap/glibc-linux4-2.33-5-x86_64.pkg.tar.zst /tmp/bootstrap/lib32-glibc-linux4-2.33-5-x86_64.pkg.tar.zst
     - pacman --noconfirm -Syyu
     - pacman --noconfirm --needed -S base s3cmd
     - s3cmd -s --region=$S3_REGION --host=$S3_HOST --host-bucket="$S3_BUCKET_HOST" --access_key=$S3_ACCESS_ID --secret_key=$S3_SECRET sync --follow-symlinks s3://$S3_BUCKET/archlinux/mbp/x86_64/ /tmp/repo/
@@ -93,6 +105,8 @@ steps:
     event: tag
 
 volumes:
+- name: arch-bootstrap
+  temp: {}
 - name: build-products
   temp: {}
 - name: temp-repo
