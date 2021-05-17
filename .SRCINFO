@@ -7,6 +7,7 @@ pkgbase = apple-bce-git
 	license = GPL2
 	makedepends = git
 	makedepends = linux-headers
+	makedepends = pahole
 	depends = linux
 	options = !strip
 	source = apple-bce::git+https://github.com/t2linux/apple-bce-drv.git#branch=aur

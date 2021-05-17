@@ -11,7 +11,7 @@ url="https://github.com/t2linux/apple-bce-drv"
 license=('GPL2')
 
 depends=('linux')
-makedepends=('git' 'linux-headers')
+makedepends=('git' 'linux-headers' 'pahole')
 options=(!strip)
 
 source=("apple-bce::git+https://github.com/t2linux/apple-bce-drv.git#branch=aur"
