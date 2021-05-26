@@ -1,7 +1,7 @@
 pkgbase = apple-bce-git
 	pkgdesc = Apple BCE (Buffer Copy Engine) driver for T2-based devices.
 	pkgver = r185.f93c656
-	pkgrel = 3
+	pkgrel = 4
 	url = https://github.com/t2linux/apple-bce-drv
 	arch = x86_64
 	license = GPL2
