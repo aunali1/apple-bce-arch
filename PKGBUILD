@@ -4,7 +4,7 @@ _pkgbase=('apple-bce')
 pkgname=(${_pkgbase}-git ${_pkgbase}-dkms-git)
 pkgdesc="Apple BCE (Buffer Copy Engine) driver for T2-based devices."
 pkgver=r185.f93c656
-pkgrel=7
+pkgrel=8
 
 arch=('x86_64')
 url="https://github.com/t2linux/apple-bce-drv"
@@ -41,7 +41,7 @@ build() {
 }
 
 package_apple-bce-git() {
-	depends=('linux-mbp=5.12.13' 'linux-mbp-headers=5.12.13')
+	depends=('linux-mbp=5.12.14' 'linux-mbp-headers=5.12.14')
 
 	_kernver=$(</usr/src/linux-mbp/version)
 	_extramodules="/usr/lib/modules/${_kernver}/extramodules"
